@@ -23,9 +23,9 @@ const PublicPage: React.FC = () => {
     <div className="min-h-screen bg-gray-50">
       <div className="bg-gradient-to-r from-blue-900 to-blue-700 py-16 px-4 text-center">
         <Mail className="h-16 w-16 text-white mx-auto mb-4" />
-        <h1 className="text-3xl font-bold text-white mb-2">Corporate Email Directory</h1>
+        <h1 className="text-3xl font-bold text-white mb-2">Diretório de e-mail corporativo</h1>
         <p className="text-blue-100 max-w-2xl mx-auto">
-          Find and connect with our team through our official corporate email accounts.
+          Encontre e conecte-se com nossa equipe por meio de nossas contas de e-mail corporativas oficiais.
         </p>
       </div>
       

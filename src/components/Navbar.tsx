@@ -11,7 +11,7 @@ const Navbar: React.FC = () => {
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <Mail className="h-8 w-8 mr-2" />
-            <span className="text-xl font-semibold">Corporate Email Portal</span>
+            <span className="text-xl font-semibold">Portal de E-mail Corporativo</span>
           </div>
           
           <div className="flex items-center">

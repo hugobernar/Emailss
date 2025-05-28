@@ -35,7 +35,7 @@ const MainContent: React.FC = () => {
       )}
       <footer className="bg-gray-100 py-4 text-center text-gray-600 text-sm">
         <div className="max-w-7xl mx-auto px-4">
-          © {new Date().getFullYear()} Your Company Name. All rights reserved.
+          © {new Date().getFullYear()} Prefeitura de Theobroma. Adiministração Equipe DTI.
         </div>
       </footer>
     </div>

@@ -21,7 +21,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
       </div>
       <input
         type="text"
-        placeholder="Search email accounts..."
+        placeholder="Pesquisar contas de e-mail..."
         value={query}
         onChange={handleChange}
         className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white 
