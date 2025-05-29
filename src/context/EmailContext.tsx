@@ -1,12 +1,17 @@
 import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
 import { EmailAccount } from '../types';
-import { initialEmails } from '../data/initialData';
+import {
+  addEmailToFirebase,
+  getAllEmailsFromFirebase,
+  updateEmailInFirebase,
+  deleteEmailFromFirebase,
+} from '../services/emailService'; // ajuste se estiver em outra pasta
 
 interface EmailContextType {
   emails: EmailAccount[];
-  addEmail: (email: Omit<EmailAccount, 'id'>) => void;
-  updateEmail: (id: string, updatedEmail: Omit<EmailAccount, 'id'>) => void;
-  deleteEmail: (id: string) => void;
+  addEmail: (email: Omit<EmailAccount, 'id'>) => Promise<void>;
+  updateEmail: (id: string, updatedEmail: Omit<EmailAccount, 'id'>) => Promise<void>;
+  deleteEmail: (id: string) => Promise<void>;
   searchEmails: (query: string) => EmailAccount[];
 }
 
@@ -14,47 +19,50 @@ const EmailContext = createContext<EmailContextType | undefined>(undefined);
 
 export const EmailProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [emails, setEmails] = useState<EmailAccount[]>([]);
-  
+
   useEffect(() => {
-    // Load emails from localStorage or use initial data
-    const storedEmails = localStorage.getItem('emails');
-    if (storedEmails) {
-      setEmails(JSON.parse(storedEmails));
-    } else {
-      setEmails(initialEmails);
-    }
+    const loadEmails = async () => {
+      try {
+        const data = await getAllEmailsFromFirebase();
+        setEmails(data);
+      } catch (error) {
+        console.error('Erro ao carregar emails do Firebase:', error);
+      }
+    };
+    loadEmails();
   }, []);
 
-  // Save to localStorage whenever emails change
-  useEffect(() => {
-    if (emails.length > 0) {
-      localStorage.setItem('emails', JSON.stringify(emails));
+  const addEmail = async (email: Omit<EmailAccount, 'id'>) => {
+    try {
+      const newEmail = await addEmailToFirebase(email);
+      setEmails((prev) => [...prev, newEmail]);
+    } catch (error) {
+      console.error('Erro ao adicionar email:', error);
     }
-  }, [emails]);
-
-  const addEmail = (email: Omit<EmailAccount, 'id'>) => {
-    const newEmail = {
-      ...email,
-      id: Date.now().toString(),
-    };
-    setEmails((prevEmails) => [...prevEmails, newEmail]);
   };
 
-  const updateEmail = (id: string, updatedEmail: Omit<EmailAccount, 'id'>) => {
-    setEmails((prevEmails) =>
-      prevEmails.map((email) =>
-        email.id === id ? { ...updatedEmail, id } : email
-      )
-    );
+  const updateEmail = async (id: string, updatedEmail: Omit<EmailAccount, 'id'>) => {
+    try {
+      await updateEmailInFirebase(id, updatedEmail);
+      setEmails((prev) =>
+        prev.map((email) => (email.id === id ? { id, ...updatedEmail } : email))
+      );
+    } catch (error) {
+      console.error('Erro ao atualizar email:', error);
+    }
   };
 
-  const deleteEmail = (id: string) => {
-    setEmails((prevEmails) => prevEmails.filter((email) => email.id !== id));
+  const deleteEmail = async (id: string) => {
+    try {
+      await deleteEmailFromFirebase(id);
+      setEmails((prev) => prev.filter((email) => email.id !== id));
+    } catch (error) {
+      console.error('Erro ao deletar email:', error);
+    }
   };
 
-  const searchEmails = (query: string) => {
+  const searchEmails = (query: string): EmailAccount[] => {
     if (!query.trim()) return emails;
-    
     const lowerQuery = query.toLowerCase();
     return emails.filter(
       (email) =>
@@ -66,9 +74,7 @@ export const EmailProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   };
 
   return (
-    <EmailContext.Provider
-      value={{ emails, addEmail, updateEmail, deleteEmail, searchEmails }}
-    >
+    <EmailContext.Provider value={{ emails, addEmail, updateEmail, deleteEmail, searchEmails }}>
       {children}
     </EmailContext.Provider>
   );
