@@ -82,7 +82,7 @@ const AdminPage: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
           <h1 className="text-2xl font-bold text-gray-900 mb-4 md:mb-0">
-            Admin Dashboard
+            Painel Do Administrador
           </h1>
           
           <div className="flex flex-col sm:flex-row gap-4">
@@ -95,7 +95,7 @@ const AdminPage: React.FC = () => {
                           shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
               >
                 <RefreshCw className={`h-4 w-4 mr-2 ${isLoading ? 'animate-spin' : ''}`} />
-                Refresh
+                Atualizar
               </button>
               
               <button

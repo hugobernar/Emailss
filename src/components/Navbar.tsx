@@ -20,7 +20,7 @@ const Navbar: React.FC = () => {
                 {isAdmin && (
                   <div className="flex items-center text-blue-200">
                     <UserCircle className="h-5 w-5 mr-1" />
-                    <span>Admin</span>
+                    <span>Administrador</span>
                   </div>
                 )}
                 <button
@@ -28,7 +28,7 @@ const Navbar: React.FC = () => {
                   className="flex items-center text-blue-200 hover:text-white transition-colors"
                 >
                   <LogOut className="h-5 w-5 mr-1" />
-                  <span>Logout</span>
+                  <span>Sair</span>
                 </button>
               </div>
             )}

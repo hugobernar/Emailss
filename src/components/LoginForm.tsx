@@ -85,7 +85,7 @@ const LoginForm: React.FC = () => {
           </div>
           
           <div className="text-center text-sm text-gray-500">
-            <p>Default credentials: admin / admin123</p>
+            <p>Acesso permitido apenas para usuarios DTI</p>
           </div>
         </form>
       </div>
